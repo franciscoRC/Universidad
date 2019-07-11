@@ -1,0 +1,147 @@
+﻿Imports DevExpress.Web
+Imports DevExpress.Web.Data
+
+'   Creacion: 07-JUL-2019       F.J.R.C
+'
+'    Historial de cambios:
+'   07-JUL-2019     FJRC    Creacion, version inicial
+Public Class frmUniversidadList
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        ' Acciones de inicializacion que solo se deben ejecutar una vez al cargar la pagina
+        If Not IsPostBack Then
+
+            '' Validacion importante: Evitar que accesen las paginas sin haberse "logeado"
+            If CType(Session("UsuarioID"), Int32) = 0 Then
+                Response.Redirect("frmLogin.aspx")
+            End If
+
+        End If
+
+    End Sub
+
+#Region " BOTONES ACCESO RAPIDO: REPORTES "
+
+    'Protected Sub btnRpListaPrecios_Click(sender As Object, e As EventArgs) Handles btnRpListaPrecios.Click
+
+    '    Response.Redirect("frmRpArticListaPrec.aspx")
+
+    'End Sub
+
+#End Region
+
+#Region "PERMISOS de usuario. Habilitacion de Altas, Bajas, Cambios"
+
+    Protected Sub gvwUniversidades_CustomButtonInitialize(sender As Object, e As ASPxGridViewCustomButtonEventArgs) Handles gvwUniversidades.CustomButtonInitialize
+
+        If e.VisibleIndex = -1 Then Exit Sub
+
+        'obtenemos la cadena de permisos de la var de sesion corresp a esta opcion del sistema
+        'Dim mCadenaPermisos As String = Session("opcPVGastosCaja")
+
+        Dim mOk As Boolean
+        Select Case e.ButtonID
+            Case "gvwUniversidadesInsertar"
+                'mOk = Session("Empleado_CuentaAdmin") = "1" OrElse TieneElPermiso(Permisos.Alta, mCadenaPermisos)
+
+                mOk = (Session("Usuario_Admin") = "1")
+
+            Case "gvwUniversidadesEditar"
+                mOk = True
+
+        End Select
+
+        If mOk Then
+            e.Visible = DevExpress.Utils.DefaultBoolean.True
+        Else
+            e.Visible = DevExpress.Utils.DefaultBoolean.False
+        End If
+
+    End Sub
+
+    Protected Sub gvwUniversidades_CommandButtonInitialize(sender As Object, e As ASPxGridViewCommandButtonEventArgs) Handles gvwUniversidades.CommandButtonInitialize
+
+        If e.VisibleIndex = -1 Then Exit Sub
+
+        ' obtenemos la cadena de permisos de la var de sesion corresp a esta opcion del sistema
+        'Dim mCadenaPermisos As String = Session("opcPVGastosCaja")
+
+        Select Case e.ButtonType
+            Case ColumnCommandButtonType.Delete
+
+                e.Visible = (Session("Usuario_Admin") = "1")
+
+        End Select
+
+    End Sub
+
+#End Region
+
+#Region " Botones de accion: ALTAS, BAJAS, CAMBIOS "
+
+    Protected Sub gvwUniversidades_CustomButtonCallback(ByVal sender As Object, ByVal e As DevExpress.Web.ASPxGridViewCustomButtonCallbackEventArgs) Handles gvwUniversidades.CustomButtonCallback
+
+        If e.ButtonID = "gvwUniversidadesInsertar" Then
+
+            ' Automaticamente se manda llamar la pantalla de alta, con ID cero.
+            Session("UniversidadID") = 0
+
+            ASPxWebControl.RedirectOnCallback("frmUniversidadEdit.aspx")
+
+        End If
+
+        If e.ButtonID = "gvwUniversidadesEditar" Then
+
+            ' obtiene ID de Gasto
+            Dim mID As String = gvwUniversidades.GetRowValues(e.VisibleIndex, "ID").ToString()
+
+            ' Automaticamente se manda llamar la pantalla de alta, con ID cero.
+            Session("UniversidadID") = mID
+
+            ASPxWebControl.RedirectOnCallback("frmUniversidadEdit.aspx")
+
+        End If
+
+    End Sub
+
+    ' gridview VACIO / SIN REGISTROS: Boton que aparece para agregar registros
+    Protected Sub btnInsertar_Click(sender As Object, e As EventArgs)
+
+        ' Automaticamente se manda llamar la pantalla de alta, con ID cero.
+        Session("UniversidadID") = 0
+
+        Response.Redirect("frmUniversidadEdit.aspx")
+
+    End Sub
+
+    Protected Sub btnInsertar_Init(sender As Object, e As EventArgs)
+
+        '' obtenemos la cadena de permisos de la var de sesion corresp a esta opcion del sistema
+        'Dim mCadenaPermisos As String = Session("opcPVGastosCaja")
+
+        sender.Visible = (Session("Usuario_Admin") = "1")
+
+    End Sub
+
+#End Region
+
+#Region "Eventos seleccion gridview HIJOS"
+
+    'Protected Sub gvwPartidas_BeforePerformDataSelect(sender As Object, e As EventArgs)
+
+    '    ' Toma y asigna el ID del Padre
+    '    Session("UniversidadID") = CType(sender, DevExpress.Web.ASPxGridView).GetMasterRowKeyValue
+
+    'End Sub
+
+#End Region
+
+
+#Region "Control MENU - ToolBar"
+
+
+#End Region
+
+End Class
