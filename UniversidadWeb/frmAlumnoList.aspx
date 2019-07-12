@@ -1,16 +1,16 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/UniMasterOne.Master" CodeBehind="frmCarrerasList.aspx.vb" Inherits="UniversidadWeb.frmCarrerasList" %>
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/UniMasterOne.Master" CodeBehind="frmAlumnoList.aspx.vb" Inherits="UniversidadWeb.frmAlumnoList" %>
 <%@ Register Assembly="DevExpress.Web.v18.1, Version=18.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-      <%-- Contenedor principal --%>
+          <%-- Contenedor principal --%>
     <div class="container-fluid">
                
         <%-- Titulo/encabezado de la opcion --%>
         <div class="row">
             <div class="col-md-12">
                 <h3 class="text-center text-primary">
-                    Carreras
+                    Alumnos
                 </h3>
             </div>
         </div>
@@ -21,8 +21,8 @@
 
                 <%-- Se declara el nombre para el gridview, el origen de datos para A,B,C., nombre del campo llave primaria,
                                 y los eventos que se manejan por codigo (updating, inserting, etc.)  --%>
-                <dx:ASPxGridView CssClass="tabla-adaptable" ID="gvwCarreras" runat="server" Width="100%"
-                    AutoGenerateColumns="False" DataSourceID="dsCarreras" KeyFieldName="ID">
+                <dx:ASPxGridView CssClass="tabla-adaptable" ID="gvwAlumnos" runat="server" Width="100%"
+                    AutoGenerateColumns="False" DataSourceID="dsAlumnos" KeyFieldName="ID">
                     <%-- los botones de accion se configuran como imagenes, se indica la ruta donde se encuentran --%>
                     <SettingsCommandButton>
                         <DeleteButton Image-Url="Images/Iconos/Eliminar.ico">
@@ -39,10 +39,10 @@
                         <dx:GridViewCommandColumn ButtonType="Image" ShowNewButtonInHeader="false" ShowNewButton="true"
                             ShowEditButton="False" ShowDeleteButton="True" ShowClearFilterButton="true" Width="70" VisibleIndex="0">
                             <CustomButtons>
-                                <dx:GridViewCommandColumnCustomButton ID="gvwCarrerasInsertar" Image-ToolTip="Nuevo">
+                                <dx:GridViewCommandColumnCustomButton ID="gvwAlumnosInsertar" Image-ToolTip="Nuevo">
                                     <Image Url="Images/Iconos/Nuevo.ico"></Image>
                                 </dx:GridViewCommandColumnCustomButton>
-                                <dx:GridViewCommandColumnCustomButton ID="gvwCarrerasEditar" Image-ToolTip="Editar">
+                                <dx:GridViewCommandColumnCustomButton ID="gvwAlumnosEditar" Image-ToolTip="Editar">
                                     <Image Url="Images/Iconos/Editar.ico"></Image>
                                 </dx:GridViewCommandColumnCustomButton>
                             </CustomButtons>
@@ -51,21 +51,33 @@
                         <dx:GridViewDataTextColumn FieldName="ID" ReadOnly="True" VisibleIndex="1" Visible="false">
                         </dx:GridViewDataTextColumn>
                         <%-- Inician todas las demás columnas de la tabla --%>
-                        
-                        <dx:GridViewDataTextColumn FieldName="Nombre" VisibleIndex="3" >
+                        <dx:GridViewDataTextColumn FieldName="Clave" VisibleIndex="3" Width="75px">
                         </dx:GridViewDataTextColumn>
-                        <dx:GridViewDataTextColumn FieldName="ClaveSEP" VisibleIndex="5" Width="75px">
+                        <dx:GridViewDataTextColumn FieldName="Nombre" VisibleIndex="5" >
                         </dx:GridViewDataTextColumn>
-                        <dx:GridViewDataTextColumn FieldName="TotalSemestres" VisibleIndex="7" Width="70px">
+                        <dx:GridViewDataTextColumn FieldName="ApellidoPaterno" Caption="Apellido Paterno" VisibleIndex="7" >
                         </dx:GridViewDataTextColumn>
-                        <dx:GridViewDataDateColumn FieldName="Alta" Caption="Fecha Alta" VisibleIndex="9" PropertiesDateEdit-DisplayFormatString="dd/MM/yy" Width="75px">                            
-                        </dx:GridViewDataDateColumn>
-                        <dx:GridViewDataCheckColumn FieldName="Activa" VisibleIndex="11" Width="70px">
+                        <dx:GridViewDataTextColumn FieldName="ApellidoMaterno" Caption="Apellido Materno" VisibleIndex="9" >
+                        </dx:GridViewDataTextColumn>
+
+                        <dx:GridViewDataCheckColumn FieldName="Estatus" Caption="Activo" VisibleIndex="11" Width="70px">
                         </dx:GridViewDataCheckColumn>
+                        <%--<dx:GridViewDataDateColumn FieldName="FechaNacim" Caption="Fecha Alta" VisibleIndex="13" PropertiesDateEdit-DisplayFormatString="dd/MM/yy" Width="75px">                            
+                        </dx:GridViewDataDateColumn>                        
+                        <dx:GridViewDataTextColumn FieldName="Domicilio1" VisibleIndex="15" Width="70px">
+                        </dx:GridViewDataTextColumn>
+                        <dx:GridViewDataTextColumn FieldName="Domicilio2" VisibleIndex="17" Width="70px">
+                        </dx:GridViewDataTextColumn>
+                        <dx:GridViewDataTextColumn FieldName="Domicilio3" VisibleIndex="19" Width="70px">
+                        </dx:GridViewDataTextColumn>--%>
+                        <dx:GridViewDataDateColumn FieldName="FechaAlta" Caption="Fecha Alta" VisibleIndex="21" PropertiesDateEdit-DisplayFormatString="dd/MM/yy" Width="75px">                            
+                        </dx:GridViewDataDateColumn> 
+                        
+                        
                         <%--<dx:GridViewDataTextColumn FieldName="UniversidadID" VisibleIndex="13" Width="10%">
                         </dx:GridViewDataTextColumn>--%>
-                        <dx:GridViewDataComboBoxColumn FieldName="UniversidadID" Caption="Universidad" VisibleIndex="13"  Width="300px">
-                                <PropertiesComboBox DataSourceID="dsUniversidades" TextField="Nombre" ValueField="ID">
+                        <dx:GridViewDataComboBoxColumn FieldName="CarreraID" Caption="Carrera" VisibleIndex="23"  Width="300px">
+                                <PropertiesComboBox DataSourceID="dsCarreras" TextField="Nombre" ValueField="ID">
                                 </PropertiesComboBox>
                         </dx:GridViewDataComboBoxColumn>
                         <%-- Campo que se usa para filtrar solo los registro de la sucursal  --%>
@@ -126,45 +138,12 @@
     <%-- SECCION:  ORIGENES DE DATOS DE CAPTURA (Altas, Bajas, Cambios, Consultas) --%>
 
     <%--Referencias--%>
-    <asp:SqlDataSource ID="dsCarreras" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" OldValuesParameterFormatString="original_{0}"
-        SelectCommand="SELECT [Nombre], [TotalSemestres], [Alta], [Activa], [UniversidadID], [ID], [ClaveSEP] FROM [Carreras] ORDER BY [Nombre] DESC"
-        DeleteCommand="DELETE FROM [Carreras] WHERE [ID] = @original_ID AND [Nombre] = @original_Nombre AND [TotalSemestres] = @original_TotalSemestres AND [Alta] = @original_Alta AND [Activa] = @original_Activa AND [UniversidadID] = @original_UniversidadID AND [ClaveSEP] = @original_ClaveSEP" ConflictDetection="CompareAllValues" InsertCommand="INSERT INTO [Carreras] ([Nombre], [TotalSemestres], [Alta], [Activa], [UniversidadID], [ClaveSEP]) VALUES (@Nombre, @TotalSemestres, @Alta, @Activa, @UniversidadID, @ClaveSEP)" UpdateCommand="UPDATE [Carreras] SET [Nombre] = @Nombre, [TotalSemestres] = @TotalSemestres, [Alta] = @Alta, [Activa] = @Activa, [UniversidadID] = @UniversidadID, [ClaveSEP] = @ClaveSEP WHERE [ID] = @original_ID AND [Nombre] = @original_Nombre AND [TotalSemestres] = @original_TotalSemestres AND [Alta] = @original_Alta AND [Activa] = @original_Activa AND [UniversidadID] = @original_UniversidadID AND [ClaveSEP] = @original_ClaveSEP">
-        <DeleteParameters>
-            <asp:Parameter Name="original_ID" Type="Int32" />
-            <asp:Parameter Name="original_Nombre" Type="String" />
-            <asp:Parameter Name="original_TotalSemestres" Type="Byte" />
-            <asp:Parameter Name="original_Alta" DbType="Date" />
-            <asp:Parameter Name="original_Activa" Type="Boolean" />
-            <asp:Parameter Name="original_UniversidadID" Type="Int32" />
-            <asp:Parameter Name="original_ClaveSEP" Type="String" />
-        </DeleteParameters>
-        <InsertParameters>
-            <asp:Parameter Name="Nombre" Type="String" />
-            <asp:Parameter Name="TotalSemestres" Type="Byte" />
-            <asp:Parameter Name="Alta" DbType="Date" />
-            <asp:Parameter Name="Activa" Type="Boolean" />
-            <asp:Parameter Name="UniversidadID" Type="Int32" />
-            <asp:Parameter Name="ClaveSEP" Type="String" />
-        </InsertParameters>
-        <UpdateParameters>
-            <asp:Parameter Name="Nombre" Type="String" />
-            <asp:Parameter Name="TotalSemestres" Type="Byte" />
-            <asp:Parameter Name="Alta" DbType="Date" />
-            <asp:Parameter Name="Activa" Type="Boolean" />
-            <asp:Parameter Name="UniversidadID" Type="Int32" />
-            <asp:Parameter Name="ClaveSEP" Type="String" />
-            <asp:Parameter Name="original_ID" Type="Int32" />
-            <asp:Parameter Name="original_Nombre" Type="String" />
-            <asp:Parameter Name="original_TotalSemestres" Type="Byte" />
-            <asp:Parameter DbType="Date" Name="original_Alta" />
-            <asp:Parameter Name="original_Activa" Type="Boolean" />
-            <asp:Parameter Name="original_UniversidadID" Type="Int32" />
-            <asp:Parameter Name="original_ClaveSEP" Type="String" />
-        </UpdateParameters>
+    <asp:SqlDataSource ID="dsAlumnos" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" OldValuesParameterFormatString="original_{0}"
+        SelectCommand="SELECT [ID], [Clave], [Nombre], [ApellidoPaterno], [ApellidoMaterno], [Estatus], [FechaNacim], [Domicilio1], [Domicilio2], [Domicilio3], [FechaAlta], [CarreraID] FROM [Alumnos] ORDER BY [Nombre] DESC">
 
     </asp:SqlDataSource>
 
     <%-- SECCION:  ORIGENES DE DATOS SOLO DE CONSULTA (TABLAS CON LLAVES FORANEAS) --%>
-    <asp:SqlDataSource ID="dsUniversidades" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>"
-        SelectCommand="SELECT [ID], [Nombre] FROM [Universidades] ORDER BY [Nombre]"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsCarreras" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>"
+        SelectCommand="SELECT [ID], [Nombre] FROM [Carreras] ORDER BY [Nombre]"></asp:SqlDataSource>
 </asp:Content>

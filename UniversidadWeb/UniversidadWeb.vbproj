@@ -6565,6 +6565,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="frmAlumnoEdit.aspx" />
+    <Content Include="frmAlumnoList.aspx" />
     <Content Include="frmCarrerasEdit.aspx" />
     <Content Include="frmCarrerasList.aspx" />
     <Content Include="frmCicloEdit.aspx" />
@@ -7265,6 +7267,20 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="frmAlumnoEdit.aspx.designer.vb">
+      <DependentUpon>frmAlumnoEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmAlumnoEdit.aspx.vb">
+      <DependentUpon>frmAlumnoEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmAlumnoList.aspx.designer.vb">
+      <DependentUpon>frmAlumnoList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmAlumnoList.aspx.vb">
+      <DependentUpon>frmAlumnoList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="frmCarrerasEdit.aspx.designer.vb">
       <DependentUpon>frmCarrerasEdit.aspx</DependentUpon>
     </Compile>

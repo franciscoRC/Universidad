@@ -105,7 +105,7 @@
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="frmUniversidadList.aspx"><i class="fa fa-link"></i> <span>Universidades</span></a></li>
         <li><a href="frmGruposList.aspx"><i class="fa fa-link"></i> <span>Grupos</span></a></li>
-        <li><a href="#"><i class="fa fa-link"></i> <span>Alumnos</span></a></li>
+        <li><a href="frmAlumnoList.aspx"><i class="fa fa-link"></i> <span>Alumnos</span></a></li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Calificaciones</span></a></li>
         <li><a href="frmCarrerasList.aspx"><i class="fa fa-link"></i> <span>Carreras</span></a></li>
         <li><a href="frmCicloList"><i class="fa fa-link"></i> <span>Ciclos</span></a></li>
