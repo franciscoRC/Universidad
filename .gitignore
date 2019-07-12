@@ -1,3 +1,5 @@
 UniversidadWeb.sln
 packages
 .vs
+bin
+obj
