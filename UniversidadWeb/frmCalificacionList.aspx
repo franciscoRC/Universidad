@@ -1,12 +1,10 @@
-﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/UniMasterOne.Master" CodeBehind="frmUniversidadList.aspx.vb" Inherits="UniversidadWeb.frmUniversidadList" %>
-
+﻿<%@ Page Title="" Language="vb" AutoEventWireup="false" MasterPageFile="~/UniMasterOne.Master" CodeBehind="frmCalificacionList.aspx.vb" Inherits="UniversidadWeb.frmCalificacionList" %>
 <%@ Register Assembly="DevExpress.Web.v18.1, Version=18.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-
-    
+        
     <%-- Contenedor principal --%>
     <div class="container-fluid">
                
@@ -14,7 +12,7 @@
         <div class="row">
             <div class="col-md-12">
                 <h3 class="text-center text-primary">
-                    Universidades
+                    Calificaciones
                 </h3>
             </div>
         </div>
@@ -23,8 +21,8 @@
             <div class="col-md-12">
                 <%-- Se declara el nombre para el gridview, el origen de datos para A,B,C., nombre del campo llave primaria,
                                 y los eventos que se manejan por codigo (updating, inserting, etc.)  --%>
-                <dx:ASPxGridView CssClass="tabla-adaptable" ID="gvwUniversidades" runat="server" Width="100%"
-                    AutoGenerateColumns="False" DataSourceID="dsUniversidades" KeyFieldName="ID">
+                <dx:ASPxGridView CssClass="tabla-adaptable" ID="gvwCalificacion" runat="server" Width="100%"
+                    AutoGenerateColumns="False" DataSourceID="dsCalificaciones" KeyFieldName="ID">
                     <%-- los botones de accion se configuran como imagenes, se indica la ruta donde se encuentran --%>
                     <SettingsCommandButton>
                         <DeleteButton Image-Url="Images/Iconos/Eliminar.ico">
@@ -41,10 +39,10 @@
                         <dx:GridViewCommandColumn ButtonType="Image" ShowNewButtonInHeader="false" ShowNewButton="False"
                             ShowEditButton="False" ShowDeleteButton="True" ShowClearFilterButton="true" Width="70" VisibleIndex="0">
                             <CustomButtons>
-                                <dx:GridViewCommandColumnCustomButton ID="gvwUniversidadesInsertar" Image-ToolTip="Nuevo">
+                                <dx:GridViewCommandColumnCustomButton ID="gvwCalificacionInsertar" Image-ToolTip="Nuevo">
                                     <Image Url="Images/Iconos/Nuevo.ico"></Image>
                                 </dx:GridViewCommandColumnCustomButton>
-                                <dx:GridViewCommandColumnCustomButton ID="gvwUniversidadesEditar" Image-ToolTip="Editar">
+                                <dx:GridViewCommandColumnCustomButton ID="gvwCalificacionEditar" Image-ToolTip="Editar">
                                     <Image Url="Images/Iconos/Editar.ico"></Image>
                                 </dx:GridViewCommandColumnCustomButton>
                             </CustomButtons>
@@ -54,14 +52,22 @@
                         </dx:GridViewDataTextColumn>
                         <%-- Inician todas las demás columnas de la tabla --%>
                         
-                        <dx:GridViewDataTextColumn FieldName="Nombre" VisibleIndex="3">
+                        <dx:GridViewDataTextColumn FieldName="Cal1" Caption="Calificación 1:" VisibleIndex="3" Width="75px">
                         </dx:GridViewDataTextColumn>
-                        <dx:GridViewDataTextColumn FieldName="Domicilio1" Caption="Calle/Num." VisibleIndex="5" Width="200px">
+                        <dx:GridViewDataTextColumn FieldName="Cal2" Caption="Calificación 2:" VisibleIndex="5" Width="75px">
                         </dx:GridViewDataTextColumn>
-                        <dx:GridViewDataTextColumn FieldName="Domicilio2" Caption="Colonia" VisibleIndex="7" Width="150px">
+                        <dx:GridViewDataTextColumn FieldName="Cal3" Caption="Calificación 3:" VisibleIndex="7" Width="75px">
                         </dx:GridViewDataTextColumn>
-                         <dx:GridViewDataTextColumn FieldName="Domicilio3" Caption="Cd/Edo/CP" VisibleIndex="9" Width="150px">                            
+                         <dx:GridViewDataTextColumn FieldName="Promedio"  VisibleIndex="9" Width="80px">                            
                         </dx:GridViewDataTextColumn>
+                        <dx:GridViewDataComboBoxColumn FieldName="GrupoAlumnoID" Caption="GrupoAlumno" VisibleIndex="11">
+                        <PropertiesComboBox DataSourceID="dsGruposAlumnos" TextField="Estatus" ValueField="ID">
+                        </PropertiesComboBox>
+                        </dx:GridViewDataComboBoxColumn>
+                        <dx:GridViewDataComboBoxColumn FieldName="MateriaID" Caption="Materia" VisibleIndex="13">
+                        <PropertiesComboBox DataSourceID="dsMaterias" TextField="Nombre" ValueField="ID">
+                        </PropertiesComboBox>
+                        </dx:GridViewDataComboBoxColumn>
                         <%-- Campo que se usa para filtrar solo los registro de la sucursal  --%>
                         <%--<dx:GridViewDataTextColumn FieldName="UniID" VisibleIndex="11" Visible="False">
                         </dx:GridViewDataTextColumn>--%>
@@ -97,7 +103,7 @@
                             <%--Seccion que se activa cuando no hay ningun registro a desplegar en el gridview--%>
                             <div class="row">
 
-                                <div class="col-md-4 offset-md-4">
+                                <div class="col-md-4 col-md-offset-4">
                                     <%--Se despliega el sig mensaje--%>
                                             Aun no se registran datos...
                                             <br />
@@ -120,37 +126,51 @@
     <%-- SECCION:  ORIGENES DE DATOS DE CAPTURA (Altas, Bajas, Cambios, Consultas) --%>
 
     <%--Referencias--%>
-    <asp:SqlDataSource ID="dsUniversidades" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" OldValuesParameterFormatString="original_{0}"
-        SelectCommand="SELECT [ID], [Nombre], [Domicilio1], [Domicilio2], [Domicilio3] FROM [Universidades] ORDER BY [Nombre] DESC"
-        DeleteCommand="DELETE FROM [Universidades] WHERE [ID] = @original_ID AND [Nombre] = @original_Nombre AND (([Domicilio1] = @original_Domicilio1) OR ([Domicilio1] IS NULL AND @original_Domicilio1 IS NULL)) AND (([Domicilio2] = @original_Domicilio2) OR ([Domicilio2] IS NULL AND @original_Domicilio2 IS NULL)) AND (([Domicilio3] = @original_Domicilio3) OR ([Domicilio3] IS NULL AND @original_Domicilio3 IS NULL))" ConflictDetection="CompareAllValues" InsertCommand="INSERT INTO [Universidades] ([Nombre], [Domicilio1], [Domicilio2], [Domicilio3]) VALUES (@Nombre, @Domicilio1, @Domicilio2, @Domicilio3)" UpdateCommand="UPDATE [Universidades] SET [Nombre] = @Nombre, [Domicilio1] = @Domicilio1, [Domicilio2] = @Domicilio2, [Domicilio3] = @Domicilio3 WHERE [ID] = @original_ID AND [Nombre] = @original_Nombre AND (([Domicilio1] = @original_Domicilio1) OR ([Domicilio1] IS NULL AND @original_Domicilio1 IS NULL)) AND (([Domicilio2] = @original_Domicilio2) OR ([Domicilio2] IS NULL AND @original_Domicilio2 IS NULL)) AND (([Domicilio3] = @original_Domicilio3) OR ([Domicilio3] IS NULL AND @original_Domicilio3 IS NULL))">
+    <asp:SqlDataSource ID="dsCalificaciones" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" OldValuesParameterFormatString="original_{0}"
+        SelectCommand="SELECT [ID], [Cal1], [Cal2], [Cal3], [Promedio], [GrupoAlumnoID], [MateriaID] FROM [Calificaciones] ORDER BY [ID]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Calificaciones] WHERE [ID] = @original_ID AND [Cal1] = @original_Cal1 AND [Cal2] = @original_Cal2 AND [Cal3] = @original_Cal3 AND [Promedio] = @original_Promedio AND [GrupoAlumnoID] = @original_GrupoAlumnoID AND [MateriaID] = @original_MateriaID" InsertCommand="INSERT INTO [Calificaciones] ([Cal1], [Cal2], [Cal3], [Promedio], [GrupoAlumnoID], [MateriaID]) VALUES (@Cal1, @Cal2, @Cal3, @Promedio, @GrupoAlumnoID, @MateriaID)" UpdateCommand="UPDATE [Calificaciones] SET [Cal1] = @Cal1, [Cal2] = @Cal2, [Cal3] = @Cal3, [Promedio] = @Promedio, [GrupoAlumnoID] = @GrupoAlumnoID, [MateriaID] = @MateriaID WHERE [ID] = @original_ID AND [Cal1] = @original_Cal1 AND [Cal2] = @original_Cal2 AND [Cal3] = @original_Cal3 AND [Promedio] = @original_Promedio AND [GrupoAlumnoID] = @original_GrupoAlumnoID AND [MateriaID] = @original_MateriaID">
         <DeleteParameters>
             <asp:Parameter Name="original_ID" Type="Int32" />
-            <asp:Parameter Name="original_Nombre" Type="String" />
-            <asp:Parameter Name="original_Domicilio1" Type="String" />
-            <asp:Parameter Name="original_Domicilio2" Type="String" />
-            <asp:Parameter Name="original_Domicilio3" Type="String" />
+            <asp:Parameter Name="original_Cal1" Type="Double" />
+            <asp:Parameter Name="original_Cal2" Type="Double" />
+            <asp:Parameter Name="original_Cal3" Type="Double" />
+            <asp:Parameter Name="original_Promedio" Type="Double" />
+            <asp:Parameter Name="original_GrupoAlumnoID" Type="Int32" />
+            <asp:Parameter Name="original_MateriaID" Type="Int32" />
         </DeleteParameters>
         <InsertParameters>
-            <asp:Parameter Name="Nombre" Type="String" />
-            <asp:Parameter Name="Domicilio1" Type="String" />
-            <asp:Parameter Name="Domicilio2" Type="String" />
-            <asp:Parameter Name="Domicilio3" Type="String" />
+            <asp:Parameter Name="Cal1" Type="Double" />
+            <asp:Parameter Name="Cal2" Type="Double" />
+            <asp:Parameter Name="Cal3" Type="Double" />
+            <asp:Parameter Name="Promedio" Type="Double" />
+            <asp:Parameter Name="GrupoAlumnoID" Type="Int32" />
+            <asp:Parameter Name="MateriaID" Type="Int32" />
         </InsertParameters>
         <UpdateParameters>
-            <asp:Parameter Name="Nombre" Type="String" />
-            <asp:Parameter Name="Domicilio1" Type="String" />
-            <asp:Parameter Name="Domicilio2" Type="String" />
-            <asp:Parameter Name="Domicilio3" Type="String" />
+            <asp:Parameter Name="Cal1" Type="Double" />
+            <asp:Parameter Name="Cal2" Type="Double" />
+            <asp:Parameter Name="Cal3" Type="Double" />
+            <asp:Parameter Name="Promedio" Type="Double" />
+            <asp:Parameter Name="GrupoAlumnoID" Type="Int32" />
+            <asp:Parameter Name="MateriaID" Type="Int32" />
             <asp:Parameter Name="original_ID" Type="Int32" />
-            <asp:Parameter Name="original_Nombre" Type="String" />
-            <asp:Parameter Name="original_Domicilio1" Type="String" />
-            <asp:Parameter Name="original_Domicilio2" Type="String" />
-            <asp:Parameter Name="original_Domicilio3" Type="String" />
+            <asp:Parameter Name="original_Cal1" Type="Double" />
+            <asp:Parameter Name="original_Cal2" Type="Double" />
+            <asp:Parameter Name="original_Cal3" Type="Double" />
+            <asp:Parameter Name="original_Promedio" Type="Double" />
+            <asp:Parameter Name="original_GrupoAlumnoID" Type="Int32" />
+            <asp:Parameter Name="original_MateriaID" Type="Int32" />
         </UpdateParameters>
+
+    </asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsGruposAlumnos" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" OldValuesParameterFormatString="original_{0}"
+        SelectCommand="SELECT [ID], [Estatus] FROM [GruposAlumnos] ORDER BY [ID]">
+
+    </asp:SqlDataSource>
+    <asp:SqlDataSource ID="dsMaterias" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" OldValuesParameterFormatString="original_{0}"
+        SelectCommand="SELECT [ID], [Nombre] FROM [Materias] ORDER BY [Nombre]">
 
     </asp:SqlDataSource>
 
     <%-- SECCION:  ORIGENES DE DATOS SOLO DE CONSULTA (TABLAS CON LLAVES FORANEAS) --%>
 
 </asp:Content>
-

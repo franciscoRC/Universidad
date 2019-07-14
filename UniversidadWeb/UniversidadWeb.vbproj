@@ -6567,10 +6567,13 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="frmAlumnoEdit.aspx" />
     <Content Include="frmAlumnoList.aspx" />
+    <Content Include="frmCalificacionEdit.aspx" />
+    <Content Include="frmCalificacionList.aspx" />
     <Content Include="frmCarrerasEdit.aspx" />
     <Content Include="frmCarrerasList.aspx" />
     <Content Include="frmCicloEdit.aspx" />
     <Content Include="frmCicloList.aspx" />
+    <Content Include="frmGrupoAlumnoList.aspx" />
     <Content Include="frmGruposList.aspx" />
     <Content Include="frmInicio.aspx" />
     <Content Include="frmLogin.aspx" />
@@ -7281,6 +7284,20 @@
       <DependentUpon>frmAlumnoList.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="frmCalificacionEdit.aspx.designer.vb">
+      <DependentUpon>frmCalificacionEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmCalificacionEdit.aspx.vb">
+      <DependentUpon>frmCalificacionEdit.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmCalificacionList.aspx.designer.vb">
+      <DependentUpon>frmCalificacionList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmCalificacionList.aspx.vb">
+      <DependentUpon>frmCalificacionList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
     <Compile Include="frmCarrerasEdit.aspx.designer.vb">
       <DependentUpon>frmCarrerasEdit.aspx</DependentUpon>
     </Compile>
@@ -7307,6 +7324,13 @@
     </Compile>
     <Compile Include="frmCicloList.aspx.vb">
       <DependentUpon>frmCicloList.aspx</DependentUpon>
+      <SubType>ASPXCodebehind</SubType>
+    </Compile>
+    <Compile Include="frmGrupoAlumnoList.aspx.designer.vb">
+      <DependentUpon>frmGrupoAlumnoList.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="frmGrupoAlumnoList.aspx.vb">
+      <DependentUpon>frmGrupoAlumnoList.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
     <Compile Include="frmGruposList.aspx.designer.vb">
