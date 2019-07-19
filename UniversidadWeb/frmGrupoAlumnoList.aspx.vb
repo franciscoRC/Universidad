@@ -25,7 +25,6 @@ Public Class frmGrupoAlumnoList
             ' Su lista se llena manualmente con Enumeraciones definidas en la clase
 
             lblErroresValidacion.Visible = False
-            'cmbEstatus_Init(New Object, New EventArgs)
         End If
 
 
@@ -40,16 +39,25 @@ Public Class frmGrupoAlumnoList
     '
     Protected Sub gvwGruposAlumnos_HtmlEditFormCreated(sender As Object, e As ASPxGridViewEditFormEventArgs) Handles gvwGruposAlumnos.HtmlEditFormCreated
         ' Los controles estan anidados dentro de un control AspxPAgeControl (pestañas)
-        'Dim pageControl As ASPxPageControl = TryCast(gvwGruposAlumnos.FindEditFormTemplateControl("pageControl"), ASPxPageControl)
+        Dim pageControl As ASPxPageControl = TryCast(gvwGruposAlumnos.FindEditFormTemplateControl("pageControl"), ASPxPageControl)
 
-        'Dim cmbGrupo As ASPxComboBox = TryCast(pageControl.FindControl("cmbGrupo"), ASPxComboBox)
+        Dim cmbAlumno As ASPxComboBox = TryCast(pageControl.FindControl("cmbAlumno"), ASPxComboBox)
         'Dim cmbAlumno As ASPxComboBox = TryCast(pageControl.FindControl("cmbAlumno"), ASPxComboBox)
         'Dim cmbEstatus As ASPxComboBox = TryCast(pageControl.FindControl("cmbEstatus"), ASPxComboBox)
+
+
+
+        If gvwGruposAlumnos.IsNewRowEditing Then
+            cmbAlumno.ClientEnabled = True
+        Else
+            cmbAlumno.ClientEnabled = False
+        End If
 
         ''lblSucursal.ReadOnly = gvwCajas.IsNewRowEditing
         'cmbGrupo.ReadOnly = Not gvwGruposAlumnos.IsNewRowEditing
         'cmbAlumno.ReadOnly = Not gvwGruposAlumnos.IsNewRowEditing
         'cmbEstatus.ReadOnly = Not gvwGruposAlumnos.IsNewRowEditing
+
     End Sub
 
     ' Inicializacion del GridView. Principalmente se inicializan COMBOBOX
@@ -85,7 +93,7 @@ Public Class frmGrupoAlumnoList
         ' Param: 1 = Texbox,  2=Combobox, 3=Memo, 4=Fecha, 5=Checkbox, 6=ASPxGridLookup, 7=ASPxTimeEdit, 8=SpinEdit
         e.NewValues("GrupoID") = GetTextControlInGridView(gvwGruposAlumnos, "cmbGrupo", 2)
         e.NewValues("AlumnoID") = GetTextControlInGridView(gvwGruposAlumnos, "cmbAlumno", 2)
-        'e.NewValues("Estatus") = GetTextControlInGridView(gvwGruposAlumnos, "cmbEstatus", 2)
+        e.NewValues("Estatus") = GetTextControlInGridView(gvwGruposAlumnos, "cmbEstatus", 2)
 
     End Sub
 
@@ -97,7 +105,7 @@ Public Class frmGrupoAlumnoList
         'e.NewValues("Nombre") = GetTextControlInGridView(gvwGruposAlumnos, "txtNombre", 1)
         e.NewValues("GrupoID") = GetTextControlInGridView(gvwGruposAlumnos, "cmbGrupo", 2)
         e.NewValues("AlumnoID") = GetTextControlInGridView(gvwGruposAlumnos, "cmbAlumno", 2)
-        'e.NewValues("Estatus") = GetTextControlInGridView(gvwGruposAlumnos, "cmbEstatus", 2)
+        e.NewValues("Estatus") = GetTextControlInGridView(gvwGruposAlumnos, "cmbEstatus", 2)
 
         ' llave foramea que se toma de una variable de session 
         'e.NewValues("EmpresaID") = Session("EmpresaID")
@@ -287,15 +295,9 @@ Public Class frmGrupoAlumnoList
             moCatalogo = New GrupoAlumno
 
             With moCatalogo
-
-                '.Estatus = CType(cmbEstatus.Value, GrupoAlumno.Estatus_GrupoAlumno)
                 .Estatus = GrupoAlumno.Estatus_GrupoAlumno.Activo
                 .GrupoID = CType(cmbGrupo.SelectedItem.Value, Int32)
                 .AlumnoID = CType(cmbAlumno.SelectedItem.Value, Int32)
-
-
-
-
             End With
 
 
@@ -394,9 +396,20 @@ Public Class frmGrupoAlumnoList
             ' buscamos en la BD, si existe un usuario con ese login y contraseña
             '
             'Cargar las cajas que corresponden a la Sucursal seleccionada
+            'Dim moGrupos = (From d In mDbContext.Grupos
+            '                Where d.CicloID = CicloID
+            '                Select d.ID, d.Nombre).ToList
             Dim moGrupos = (From d In mDbContext.Grupos
+                            Join S In mDbContext.Semestres
+                              On d.SemestreID Equals S.ID
                             Where d.CicloID = CicloID
-                            Select d.ID, d.Nombre).ToList
+                            Select d.ID, d.Nombre, S.NombreSem).ToList
+
+            'Dim moSemestre = (From G In mDbContext.Grupos
+            '                  Join S In mDbContext.Semestres
+            '                  On G.SemestreID Equals S.ID
+            '                  Where S.ID = moSemesID
+            '                  Select G.Nombre, G.ID, S.Nombre).ToList
 
             cmbGrupo.DataSource = moGrupos
             cmbGrupo.DataBind()
@@ -411,14 +424,14 @@ Public Class frmGrupoAlumnoList
     Protected Sub cmbAlumno_Callback(ByVal source As Object, ByVal e As DevExpress.Web.CallbackEventArgsBase)
 
         ' recibe los parametros de llamado
-        Dim mSemestreID As Int32 = CType(e.Parameter, Int32)
+        Dim mCarreraID As Int32 = CType(e.Parameter, Int32)
 
-        cmbGrupoCargaElemFiltradosDeAlumnos(mSemestreID)
+        cmbGCarreraCargaElemFiltradosDeAlumnos(mCarreraID)
 
     End Sub
 
     ' El combo de unidades se debe filtrar. Y deben aparecer solo las corresp al articulo
-    Protected Sub cmbGrupoCargaElemFiltradosDeAlumnos(ByVal SemesID As Int32)
+    Protected Sub cmbGCarreraCargaElemFiltradosDeAlumnos(ByVal CarreraID As Int32)
 
         Using mDbContext As New UniversidadContext.UniversidContext("name=UniversidadConnectionString")
 
@@ -426,19 +439,19 @@ Public Class frmGrupoAlumnoList
             ' buscamos en la BD, si existe un usuario con ese login y contraseña
             '
             'Cargar las cajas que corresponden a la Sucursal seleccionada
-            Dim moSemesID = (From d In mDbContext.Grupos
-                             Where d.ID = SemesID
-                             Select d.SemestreID).FirstOrDefault
+            Dim moCarreraID = (From d In mDbContext.Alumnos
+                               Where d.CarreraID = CarreraID
+                               Select d.ID, d.Nombre, d.ApellidoPaterno).ToList
 
-            Dim moSemestre = (From A In mDbContext.Alumnos
-                              Join d In mDbContext.Semestres
-                              On d.CarreraID Equals A.CarreraID
-                              Where d.ID = moSemesID
-                              Select A.Nombre, A.ID).ToList
+            'Dim moSemestre = (From A In mDbContext.Alumnos
+            '                  Join d In mDbContext.Semestres
+            '                  On d.CarreraID Equals A.CarreraID
+            '                  Where d.ID = moSemesID
+            '                  Select A.Nombre, A.ID).ToList
 
 
 
-            cmbAlumno.DataSource = moSemestre
+            cmbAlumno.DataSource = moCarreraID
             cmbAlumno.DataBind()
 
         End Using
@@ -489,9 +502,9 @@ Public Class frmGrupoAlumnoList
 
         Dim mItems As New Dictionary(Of Int32, String)
 
-        Items.Add(0, "Activo")
-        Items.Add(1, "Suspendido")
-        Items.Add(2, "Baja")
+        mItems.Add(0, "Activo")
+        mItems.Add(1, "Suspendido")
+        mItems.Add(2, "Baja")
 
         Return mItems
 

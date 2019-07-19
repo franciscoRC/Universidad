@@ -57,7 +57,7 @@ Public Class frmSemestresList
 
         ' Obtiene (extrae) cada uno de los datos de los controles de edicion y los pasa a la B.D.
         ' Param: 1 = Texbox,  2=Combobox, 3=Memo, 4=Fecha, 5=Checkbox, 6=ASPxGridLookup, 7=ASPxTimeEdit, 8=SpinEdit
-        e.NewValues("Nombre") = GetTextControlInGridView(gvwSemestres, "txtNombre", 1)
+        e.NewValues("NombreSem") = GetTextControlInGridView(gvwSemestres, "txtNombre", 1)
         e.NewValues("Clave") = GetTextControlInGridView(gvwSemestres, "txtClave", 1)
         'e.NewValues("CarreraID") = GetTextControlInGridView(gvwSemestres, "cmbCarrera", 2)
 
@@ -68,7 +68,7 @@ Public Class frmSemestresList
 
         ' Obtiene (extrae) cada uno de los datos de los controles de edicion y los pasa a la B.D.
         ' Param: 1 = Texbox,  2=Combobox, 3=Memo, 4=Fecha, 5=Checkbox, 6=ASPxGridLookup, 7=ASPxTimeEdit, 8=SpinEdit
-        e.NewValues("Nombre") = GetTextControlInGridView(gvwSemestres, "txtNombre", 1)
+        e.NewValues("NombreSem") = GetTextControlInGridView(gvwSemestres, "txtNombre", 1)
         e.NewValues("Clave") = CType(Val(GetTextControlInGridView(gvwSemestres, "txtClave", 1)), Int32)
 
         ' llave foramea que se toma de una variable de session 

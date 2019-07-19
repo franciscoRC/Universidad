@@ -47,7 +47,7 @@
                             <dx:GridViewDataTextColumn FieldName="ID" ReadOnly="True" VisibleIndex="1" Visible="false">
                             </dx:GridViewDataTextColumn>
                             <%-- Inician todas las demás columnas de la tabla --%>
-                            <dx:GridViewDataTextColumn FieldName="Nombre" VisibleIndex="3">
+                            <dx:GridViewDataTextColumn FieldName="NombreSem" VisibleIndex="3">
                             </dx:GridViewDataTextColumn>
                              <dx:GridViewDataTextColumn FieldName="Clave" VisibleIndex="5">
                             </dx:GridViewDataTextColumn>
@@ -102,7 +102,7 @@
                                                         <div class="row">
                                                             <div class="form-group col-md-4">
                                                                 * Nombre:
-                                                                <dx:ASPxTextBox ID="txtNombre" runat="server" Width="100%" MaxLength="50" Text='<%# Eval("Nombre")%>'>
+                                                                <dx:ASPxTextBox ID="txtNombre" runat="server" Width="100%" MaxLength="50" Text='<%# Eval("NombreSem")%>'>
                                                                 </dx:ASPxTextBox>
                                                                 <br />
                                                             </div>
@@ -151,26 +151,26 @@
     </div>
     <%-- FIN Contenedor principal --%>
 
-    <asp:SqlDataSource ID="dsSemestres" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" DeleteCommand="DELETE FROM [Semestres] WHERE [ID] = @original_ID AND [Nombre] = @original_Nombre AND [Clave] = @original_Clave AND [CarreraID] = @original_CarreraID" InsertCommand="INSERT INTO [Semestres] ([Nombre], [Clave], [CarreraID]) VALUES (@Nombre, @Clave, @CarreraID)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Nombre], [Clave], [CarreraID] FROM [Semestres] ORDER BY [Nombre] DESC" UpdateCommand="UPDATE [Semestres] SET [Nombre] = @Nombre, [Clave] = @Clave, [CarreraID] = @CarreraID WHERE [ID] = @original_ID AND [Nombre] = @original_Nombre AND [Clave] = @original_Clave AND [CarreraID] = @original_CarreraID">
+    <asp:SqlDataSource ID="dsSemestres" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" DeleteCommand="DELETE FROM [Semestres] WHERE [ID] = @original_ID AND [Clave] = @original_Clave AND [CarreraID] = @original_CarreraID AND [NombreSem] = @original_NombreSem" InsertCommand="INSERT INTO [Semestres] ([Clave], [CarreraID], [NombreSem]) VALUES (@Clave, @CarreraID, @NombreSem)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT [ID], [Clave], [CarreraID], [NombreSem] FROM [Semestres] ORDER BY [NombreSem]" UpdateCommand="UPDATE [Semestres] SET [Clave] = @Clave, [CarreraID] = @CarreraID, [NombreSem] = @NombreSem WHERE [ID] = @original_ID AND [Clave] = @original_Clave AND [CarreraID] = @original_CarreraID AND [NombreSem] = @original_NombreSem">
         <DeleteParameters>
             <asp:Parameter Name="original_ID" Type="Int32" />
-            <asp:Parameter Name="original_Nombre" Type="String" />
             <asp:Parameter Name="original_Clave" Type="Int32" />
             <asp:Parameter Name="original_CarreraID" Type="Int32" />
+            <asp:Parameter Name="original_NombreSem" Type="String" />
         </DeleteParameters>
         <InsertParameters>
-            <asp:Parameter Name="Nombre" Type="String" />
             <asp:Parameter Name="Clave" Type="Int32" />
             <asp:Parameter Name="CarreraID" Type="Int32" />
+            <asp:Parameter Name="NombreSem" Type="String" />
         </InsertParameters>
         <UpdateParameters>
-            <asp:Parameter Name="Nombre" Type="String" />
             <asp:Parameter Name="Clave" Type="Int32" />
             <asp:Parameter Name="CarreraID" Type="Int32" />
+            <asp:Parameter Name="NombreSem" Type="String" />
             <asp:Parameter Name="original_ID" Type="Int32" />
-            <asp:Parameter Name="original_Nombre" Type="String" />
             <asp:Parameter Name="original_Clave" Type="Int32" />
             <asp:Parameter Name="original_CarreraID" Type="Int32" />
+            <asp:Parameter Name="original_NombreSem" Type="String" />
         </UpdateParameters>
     </asp:SqlDataSource>
 

@@ -54,7 +54,7 @@
                                 </PropertiesComboBox>
                             </dx:GridViewDataComboBoxColumn>
                             <dx:GridViewDataComboBoxColumn FieldName="SemestreID" Caption="Semestre" VisibleIndex="7">
-                                <PropertiesComboBox DataSourceID="dsSemestres" TextField="Nombre" ValueField="ID">
+                                <PropertiesComboBox DataSourceID="dsSemestres" TextField="NombreSem" ValueField="ID">
                                 </PropertiesComboBox>
                             </dx:GridViewDataComboBoxColumn>
                             <%-- Campo que se usa para filtrar solo los registro de la licencia  --%>
@@ -103,7 +103,7 @@
 
                                                         <div class="row">
                                                             <div class="form-group col-md-4">
-                                                                * Nombre:
+                                                                <dx:ASPxLabel ID="lblNombre" for="cmbCiclo" runat="server" Text="* Nombre:"></dx:ASPxLabel>                                                                
                                                                 <dx:ASPxTextBox ID="txtNombre" runat="server" Width="100%" MaxLength="50" Text='<%# Eval("Nombre")%>'>
                                                                 </dx:ASPxTextBox>
                                                                 <br />
@@ -124,7 +124,7 @@
 
                                                                 <%--El campo que se muestra se controla a traves de textField, El valor que se almacena en la BD se gestiona desde ValueField
                                                                 El valor que se carga cuando se edita un registro se controla en la propiedad Value y se bindea a la variable del Gridview--%>
-                                                                <dx:ASPxComboBox ID="cmbSemestre" runat="server" DataSourceID="dsSemestres" TextField="Nombre"
+                                                                <dx:ASPxComboBox ID="cmbSemestre" runat="server" DataSourceID="dsSemestres" TextField="NombreSem"
                                                                     ValueField="ID" ValueType="System.Int32" Width="100%" Value='<%# Bind("SemestreID")%>'>
                                                                 </dx:ASPxComboBox>
                                                             </div>
@@ -189,6 +189,6 @@
 
     <asp:SqlDataSource ID="dsSemestres" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" 
         OldValuesParameterFormatString="original_{0}"
-        SelectCommand="SELECT [ID], [Nombre] FROM [Semestres] ORDER BY [Nombre]">
+        SelectCommand="SELECT [ID], [NombreSem] FROM [Semestres] ORDER BY [NombreSem]">
     </asp:SqlDataSource>
 </asp:Content>

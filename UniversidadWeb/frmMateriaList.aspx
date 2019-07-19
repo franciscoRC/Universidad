@@ -57,7 +57,7 @@
                             </dx:GridViewDataCheckColumn>
 
                             <dx:GridViewDataComboBoxColumn FieldName="SemestreID" Caption="Semestre" VisibleIndex="9">
-                                <PropertiesComboBox DataSourceID="dsSemestres" TextField="Nombre" ValueField="ID">
+                                <PropertiesComboBox DataSourceID="dsSemestres" TextField="NombreSem" ValueField="ID">
                                 </PropertiesComboBox>
                             </dx:GridViewDataComboBoxColumn>
                             <%-- Campo que se usa para filtrar solo los registro de la licencia  --%>
@@ -128,7 +128,7 @@
                                                                 <dx:ASPxLabel ID="lblCarrera" for="cmbSemestre" runat="server" Text="Semestre:"></dx:ASPxLabel>
                                                                 <%--El campo que se muestra se controla a traves de textField, El valor que se almacena en la BD se gestiona desde ValueField
                                                                 El valor que se carga cuando se edita un registro se controla en la propiedad Value y se bindea a la variable del Gridview--%>
-                                                                <dx:ASPxComboBox ID="cmbSemestre" runat="server" DataSourceID="dsSemestres" TextField="Nombre"
+                                                                <dx:ASPxComboBox ID="cmbSemestre" runat="server" DataSourceID="dsSemestres" TextField="NombreSem"
                                                                     ValueField="ID" ValueType="System.Int32" Width="100%" Value='<%# Bind("SemestreID")%>' ClientInstanceName="cmbSemestre">
                                                                 </dx:ASPxComboBox>
                                                             </div>
@@ -192,6 +192,6 @@
 
     <asp:SqlDataSource ID="dsSemestres" runat="server" ConnectionString="<%$ ConnectionStrings:UniversidadConnectionString %>" 
         OldValuesParameterFormatString="original_{0}"
-        SelectCommand="SELECT [ID], [Nombre] FROM [Semestres] ORDER BY [Nombre]">
+        SelectCommand="SELECT [ID], [NombreSem] FROM [Semestres] ORDER BY [NombreSem]">
     </asp:SqlDataSource>
 </asp:Content>
